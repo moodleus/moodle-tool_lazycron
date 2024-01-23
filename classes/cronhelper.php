@@ -184,7 +184,7 @@ abstract class cronhelper {
         }
 
         if (class_exists('\core\cron') && is_callable(['\core\cron', 'run_main_process'])) {
-            \core\cron::run_main_process(null);
+            \core\cron::run_main_process(0);
         } else {
             require_once($CFG->libdir.'/cronlib.php');
             cron_run();
