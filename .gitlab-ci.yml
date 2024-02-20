@@ -11,17 +11,6 @@ variables:
 
 default:
   services:
-    - name: 'mariadb:10.4'
-      alias: db4
-      command:
-        - '--character-set-server=utf8mb4'
-        - '--collation-server=utf8mb4_unicode_ci'
-        - '--innodb_file_per_table=On'
-        - '--wait-timeout=28800'
-        - '--skip-log-bin'
-      variables:
-        MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: 'yes'
-        MARIADB_INITDB_SKIP_TZINFO: 'yes'
     - name: 'mariadb:10.6'
       alias: db
       command:
@@ -47,7 +36,7 @@ default:
     - 'curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer'
     - composer create-project -n --no-dev --no-progress --no-ansi moodlehq/moodle-plugin-ci /opt/mci $CIVER
     - export PATH="/opt/mci/bin:/opt/mci/vendor/bin:$PATH"
-    - moodle-plugin-ci install --db-host db
+    - moodle-plugin-ci install --db-type mariadb --db-host db --db-name moodle --db-port 3306 --no-init --verbose
 
 job:
   image: 'moodlehq/moodle-php-apache:7.1'
