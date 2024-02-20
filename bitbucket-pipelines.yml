@@ -4,27 +4,22 @@ definitions:
   installscript: &baseInstall
     export DEBIAN_FRONTEND=noninteractive ;
     export COMPOSER_ALLOW_SUPERUSER=1 ;
-    apt-get -q update && ACCEPT_EULA=Y apt-get -yq full-upgrade &&
-    apt-get -yq --no-install-suggests --no-install-recommends install ca-certificates mariadb-client &&
+    apt-get -q update &&
+    apt-get -yq --no-install-suggests --no-install-recommends install git ca-certificates mariadb-client bash curl &&
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash &&
     . ~/.bashrc &&
     nvm install -b --default --no-progress lts/carbon && 
-    { [ "${COMPVER}" = '' ] && export COMPVER='2' ; } ;
-    curl -sS https://getcomposer.org/installer | php -- --install-dir='/usr/local/bin' --filename='composer' --$COMPVER &&
+    curl -sS https://getcomposer.org/installer | php -- --install-dir='/usr/local/bin' --filename='composer' &&
     { [ "${CIVER}" = '' ] && export CIVER='^4' ; } ;
     cd "$BITBUCKET_CLONE_DIR/.." ;
     composer create-project -n --no-dev --no-progress --prefer-dist moodlehq/moodle-plugin-ci ci $CIVER &&
     { [ "${MOODLE_BRANCH}" = '' ] && export MOODLE_BRANCH='MOODLE_35_STABLE' ;
     echo "MOODLE_BRANCH=$MOODLE_BRANCH" ; } ;
-    { [ "${DB}" = '' ] && export DB='mariadb' ; } ;
-    { [ "${DB_USER}" = '' ] && export DB_USER='root' ; } ;
-    { [ "${DB_PWD}" = '' ] && export DB_PWD='' ; } ;
+    export DB='mariadb' ;
     export TRAVIS_BUILD_DIR="$BITBUCKET_CLONE_DIR" ;
     export PATH="$BITBUCKET_CLONE_DIR/../ci/bin:$BITBUCKET_CLONE_DIR/../ci/vendor/bin:$PATH" ;
-    export COMPOSER_CACHE_DIR='/root/.composer/cache' &&
-    { [ "${DB_PWD}" != '' ] && moodle-plugin-ci install
-    --db-user=$DB_USER --db-pass=$DB_PWD --branch="$MOODLE_BRANCH" --db-host='127.0.0.1' ||
-    moodle-plugin-ci install --db-user=$DB_USER --branch="$MOODLE_BRANCH" --db-host='127.0.0.1' ; }
+    export COMPOSER_CACHE_DIR='/root/.composer/cache' &&    
+    moodle-plugin-ci install --db-user=root --branch="$MOODLE_BRANCH" --db-host='127.0.0.1'
   services:
     mariadb104:
       image: 'mariadb:10.4'
