@@ -1,9 +1,5 @@
 ---
 
-#  sed -i 's/deb.debian.org/archive.debian.org/g' /etc/apt/sources.list &&
-#  sed -i 's|security.debian.org|archive.debian.org|g' /etc/apt/sources.list &&
-#  sed -i '/stretch-updates/d' /etc/apt/sources.list &&
-
 definitions:
   installscript: &baseInstall
     export DEBIAN_FRONTEND=noninteractive ;
@@ -36,6 +32,16 @@ definitions:
       variables:
         MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: 'yes'
         MARIADB_INITDB_SKIP_TZINFO: 'yes'
+    mariadb104:
+      image: 'mariadb:10.4'
+      variables:
+        MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: 'yes'
+        MARIADB_INITDB_SKIP_TZINFO: 'yes'
+    mariadb106:
+      image: 'mariadb:10.6'
+      variables:
+        MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: 'yes'
+        MARIADB_INITDB_SKIP_TZINFO: 'yes'
   caches:
     npm:
       path: "$HOME/.npm"
@@ -46,12 +52,60 @@ pipelines:
         name: 'Moodle 3.5, PHP 7.1 and MariaDB 10.3'
         image: 'moodlehq/moodle-php-apache:7.1'
         services:
-          - 'mariadb103'
+          - 'mariadb104'
         caches:
           - 'composer'
           - 'npm'
         script:
           - export CIVER='^3'
+          - *baseInstall
+          - moodle-plugin-ci phplint
+          - moodle-plugin-ci codechecker
+          - moodle-plugin-ci validate
+          - moodle-plugin-ci savepoints
+          - moodle-plugin-ci phpdoc
+    - step:
+        name: 'Moodle 3.9, PHP 7.2 and MariaDB 10.3'
+        image: 'moodlehq/moodle-php-apache:7.2'
+        services:
+          - 'mariadb104'
+        caches:
+          - 'composer'
+          - 'npm'
+        script:
+          - export MOODLE_BRANCH='MOODLE_39_STABLE'
+          - *baseInstall
+          - moodle-plugin-ci phplint
+          - moodle-plugin-ci codechecker
+          - moodle-plugin-ci validate
+          - moodle-plugin-ci savepoints
+          - moodle-plugin-ci phpdoc
+    - step:
+        name: 'Moodle 4.1, PHP 7.4 and MariaDB 10.4'
+        image: 'moodlehq/moodle-php-apache:7.4'
+        services:
+          - 'mariadb104'
+        caches:
+          - 'composer'
+          - 'npm'
+        script:
+          - export MOODLE_BRANCH='MOODLE_401_STABLE'
+          - *baseInstall
+          - moodle-plugin-ci phplint
+          - moodle-plugin-ci codechecker
+          - moodle-plugin-ci validate
+          - moodle-plugin-ci savepoints
+          - moodle-plugin-ci phpdoc
+    - step:
+        name: 'Moodle 4.3, PHP 8.0 and MariaDB 10.6'
+        image: 'moodlehq/moodle-php-apache:8.0'
+        services:
+          - 'mariadb106'
+        caches:
+          - 'composer'
+          - 'npm'
+        script:
+          - export MOODLE_BRANCH='MOODLE_403_STABLE'
           - *baseInstall
           - moodle-plugin-ci phplint
           - moodle-plugin-ci codechecker
