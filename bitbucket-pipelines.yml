@@ -10,9 +10,9 @@ definitions:
     apt-get -q update &&
     mkdir -pv /usr/share/man/man1 /usr/share/man/man3 /usr/share/man/man7 &&
     apt-get -q --no-install-suggests --no-install-recommends install default-jre-headless mariadb-client &&
-    curl -sS https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash &&
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash &&
     . ~/.bashrc &&
-    nvm install --default --no-progress lts/carbon &&
+    nvm install --default --no-progress lts/carbon && nvm use lts/carbon && 
     { [ "${COMPVER}" = '' ] && export COMPVER='2' ; } ;
     curl -sS https://getcomposer.org/installer | php -- --install-dir='/usr/local/bin' --filename='composer' --$COMPVER &&
     { [ "${CIVER}" = '' ] && export CIVER='^4' ; } ;
