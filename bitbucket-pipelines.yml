@@ -1,0 +1,58 @@
+---
+
+definitions:
+  installscript: &baseInstall
+    export DEBIAN_FRONTEND=noninteractive ;
+    export COMPOSER_ALLOW_SUPERUSER=1 ;
+    sed -i 's/deb.debian.org/archive.debian.org/g' /etc/apt/sources.list &&
+    sed -i 's|security.debian.org|archive.debian.org|g' /etc/apt/sources.list &&
+    sed -i '/stretch-updates/d' /etc/apt/sources.list &&
+    apt-get -q update &&
+    mkdir -pv /usr/share/man/man1 /usr/share/man/man3 /usr/share/man/man7 &&
+    apt-get -q --no-install-suggests --no-install-recommends install git default-jre-headless postgresql-client mariadb-client &&
+    curl -sS https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash &&
+    . ~/.bashrc &&
+    nvm install --default --no-progress lts/carbon &&
+    { [ "${COMPVER}" = '' ] && export COMPVER='2' ; } ;
+    curl -sS https://getcomposer.org/installer | php -- --install-dir='/usr/local/bin' --filename='composer' --$COMPVER &&
+    { [ "${CIVER}" = '' ] && export CIVER='^4' ; } ;
+    cd "$BITBUCKET_CLONE_DIR/.." ;
+    composer create-project -n --no-dev --no-progress --prefer-dist moodlehq/moodle-plugin-ci ci $CIVER &&
+    { [ "${MOODLE_BRANCH}" = '' ] && export MOODLE_BRANCH='MOODLE_35_STABLE' ;
+    echo "MOODLE_BRANCH=$MOODLE_BRANCH" ; } ;
+    { [ "${DB}" = '' ] && export DB='mariadb' ; } ;
+    { [ "${DB_USER}" = '' ] && export DB_USER='root' ; } ;
+    { [ "${DB_PWD}" = '' ] && export DB_PWD='' ; } ;
+    export TRAVIS_BUILD_DIR="$BITBUCKET_CLONE_DIR" ;
+    export PATH="$BITBUCKET_CLONE_DIR/../ci/bin:$BITBUCKET_CLONE_DIR/../ci/vendor/bin:$PATH" ;
+    export COMPOSER_CACHE_DIR='/root/.composer/cache' &&
+    { [ "${DB_PWD}" != '' ] && moodle-plugin-ci install
+    --db-user=$DB_USER --db-pass=$DB_PWD --branch="$MOODLE_BRANCH" --db-host='127.0.0.1' ||
+    moodle-plugin-ci install --db-user=$DB_USER --branch="$MOODLE_BRANCH" --db-host='127.0.0.1' ; }
+  services:
+    mariadb103:
+      image: 'mariadb:10.3'
+      variables:
+        MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: 'yes'
+        MARIADB_INITDB_SKIP_TZINFO: 'yes'
+  caches:
+    npm:
+      path: "$HOME/.npm"
+
+pipelines:
+  default:
+    - step:
+        name: 'Moodle 3.5, PHP 7.0 and MariaDB 10.3'
+        image: 'moodlehq/moodle-php-apache:7.0'
+        services:
+          - 'mariadb103'
+        caches:
+          - 'composer'
+          - 'npm'
+        script:
+          - *baseInstall
+          - moodle-plugin-ci phplint
+          - moodle-plugin-ci codechecker
+          - moodle-plugin-ci validate
+          - moodle-plugin-ci savepoints
+          - moodle-plugin-ci phpdoc
