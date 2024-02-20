@@ -1,0 +1,95 @@
+variables:
+  DEBIAN_FRONTEND: 'noninteractive'
+  COMPOSER_ALLOW_SUPERUSER: 1
+  COMPOSER_CACHE_DIR: "$CI_PROJECT_DIR/.cache/composer"
+  NPM_CONFIG_CACHE: "$CI_PROJECT_DIR/.cache/npm"
+  CI_BUILD_DIR: '/tmp/plugin'
+  MOODLE_BRANCH: 'MOODLE_305_STABLE'
+  MOODLE_START_BEHAT_SERVERS: 'no'
+  DB: 'mariadb'
+  CIVER: '^4'
+
+default:
+  services:
+    - name: 'mariadb:10.4'
+      alias: db4
+      command:
+        - '--character-set-server=utf8mb4'
+        - '--collation-server=utf8mb4_unicode_ci'
+        - '--innodb_file_per_table=On'
+        - '--wait-timeout=28800'
+        - '--skip-log-bin'
+      variables:
+        MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: 'yes'
+        MARIADB_INITDB_SKIP_TZINFO: 'yes'
+    - name: 'mariadb:10.6'
+      alias: db
+      command:
+        - '--character-set-server=utf8mb4'
+        - '--collation-server=utf8mb4_unicode_ci'
+        - '--innodb_file_per_table=On'
+        - '--wait-timeout=28800'
+        - '--skip-log-bin'
+      variables:
+        MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: 'yes'
+        MARIADB_INITDB_SKIP_TZINFO: 'yes'
+  cache:
+    paths:
+      - .cache
+  before_script:
+    - mkdir -pv "$CI_BUILD_DIR"
+    - cp -ru "$CI_PROJECT_DIR/"* "$CI_BUILD_DIR"
+    - apt-get -yq update
+    - apt-get -yq install --no-install-suggests git ca-certificates curl mariadb-client
+    - 'curl -sS https://raw.githubusercontent.com/creationix/nvm/v0.39.3/install.sh | bash'
+    - . ~/.bashrc
+    - nvm install -b --default --no-progress lts/gallium
+    - 'curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer'
+    - composer create-project -n --no-dev --no-progress --no-ansi moodlehq/moodle-plugin-ci /opt/mci $CIVER
+    - export PATH="/opt/mci/bin:/opt/mci/vendor/bin:$PATH"
+    - moodle-plugin-ci install --db-host db
+
+job:
+  image: 'moodlehq/moodle-php-apache:7.1'
+  variables:
+    CIVER: '^3'
+  script:
+    - moodle-plugin-ci phplint
+    - moodle-plugin-ci codechecker
+    - moodle-plugin-ci validate
+    - moodle-plugin-ci savepoints
+    - moodle-plugin-ci phpdoc
+
+job1:
+  image: 'moodlehq/moodle-php-apache:7.2'
+  variables:
+    CIVER: '^3'
+    MOODLE_BRANCH: 'MOODLE_39_STABLE'
+  script:
+    - moodle-plugin-ci phplint
+    - moodle-plugin-ci codechecker
+    - moodle-plugin-ci validate
+    - moodle-plugin-ci savepoints
+    - moodle-plugin-ci phpdoc
+
+job2:
+  image: 'moodlehq/moodle-php-apache:7.4'
+  variables:
+    MOODLE_BRANCH: 'MOODLE_401_STABLE'
+  script:
+    - moodle-plugin-ci phplint
+    - moodle-plugin-ci codechecker
+    - moodle-plugin-ci validate
+    - moodle-plugin-ci savepoints
+    - moodle-plugin-ci phpdoc
+
+job3:
+  image: 'moodlehq/moodle-php-apache:8.0'
+  variables:
+    MOODLE_BRANCH: 'MOODLE_403_STABLE'
+  script:
+    - moodle-plugin-ci phplint
+    - moodle-plugin-ci codechecker
+    - moodle-plugin-ci validate
+    - moodle-plugin-ci savepoints
+    - moodle-plugin-ci phpdoc
