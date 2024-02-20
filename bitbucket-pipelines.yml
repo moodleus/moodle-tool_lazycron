@@ -5,8 +5,8 @@ definitions:
     export DEBIAN_FRONTEND=noninteractive ;
     export COMPOSER_ALLOW_SUPERUSER=1 ;
     apt-get -q update &&
-    apt-get -yq --no-install-suggests --no-install-recommends install git ca-certificates mariadb-client bash curl &&
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash &&
+    apt-get -yq --no-install-suggests --no-install-recommends install git ca-certificates mariadb-client curl &&
+    curl -sS https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash &&
     . ~/.bashrc &&
     nvm install -b --default --no-progress lts/carbon && 
     curl -sS https://getcomposer.org/installer | php -- --install-dir='/usr/local/bin' --filename='composer' &&
