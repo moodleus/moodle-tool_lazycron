@@ -42,8 +42,8 @@ definitions:
 pipelines:
   default:
     - step:
-        name: 'Moodle 3.5, PHP 7.0 and MariaDB 10.3'
-        image: 'moodlehq/moodle-php-apache:7.0'
+        name: 'Moodle 3.5, PHP 7.1 and MariaDB 10.3'
+        image: 'moodlehq/moodle-php-apache:7.1'
         services:
           - 'mariadb103'
         caches:
