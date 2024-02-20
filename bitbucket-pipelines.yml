@@ -8,7 +8,7 @@ definitions:
     apt-get -yq --no-install-suggests --no-install-recommends install ca-certificates mariadb-client &&
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash &&
     . ~/.bashrc &&
-    nvm install --no-colors -b --default --no-progress lts/carbon && 
+    nvm install -b --default --no-progress lts/carbon && 
     { [ "${COMPVER}" = '' ] && export COMPVER='2' ; } ;
     curl -sS https://getcomposer.org/installer | php -- --install-dir='/usr/local/bin' --filename='composer' --$COMPVER &&
     { [ "${CIVER}" = '' ] && export CIVER='^4' ; } ;
