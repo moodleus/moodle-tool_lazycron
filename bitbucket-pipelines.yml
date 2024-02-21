@@ -10,15 +10,15 @@ definitions:
     . ~/.bashrc &&
     nvm install -b --default --no-progress lts/carbon && 
     curl -sS https://getcomposer.org/installer | php -- --install-dir='/usr/local/bin' --filename='composer' &&
-    { [ "${CIVER}" = '' ] && export CIVER='^4' ; } ;
+    { [ -z "${CIVER}" ] && export CIVER='^4' ; } ;
     cd "$BITBUCKET_CLONE_DIR/.." ;
     composer create-project -n --no-dev --no-progress --prefer-dist moodlehq/moodle-plugin-ci ci $CIVER &&
-    { [ "${MOODLE_BRANCH}" = '' ] && export MOODLE_BRANCH='MOODLE_35_STABLE' ;
+    { [ -z "${MOODLE_BRANCH}" ] && export MOODLE_BRANCH='MOODLE_35_STABLE' ;
     echo "MOODLE_BRANCH=$MOODLE_BRANCH" ; } ;
     export TRAVIS_BUILD_DIR="$BITBUCKET_CLONE_DIR" ;
     export PATH="$BITBUCKET_CLONE_DIR/../ci/bin:$BITBUCKET_CLONE_DIR/../ci/vendor/bin:$PATH" ;
     export COMPOSER_CACHE_DIR='/root/.composer/cache' &&    
-    moodle-plugin-ci install --db-type=mariadb --db-user=root --branch="$MOODLE_BRANCH" --db-host='127.0.0.1' --no-init
+    moodle-plugin-ci install --db-type=mariadb --db-user=root --db-host='127.0.0.1' --no-init
   services:
     mariadb:
       image: 'mariadb:10.6'
@@ -31,68 +31,70 @@ definitions:
 
 pipelines:
   default:
-    - step:
-        name: 'Moodle 3.5, PHP 7.1 and MariaDB 10.4'
-        image: 'moodlehq/moodle-php-apache:7.1'
-        services:
-          - 'mariadb'
-        caches:
-          - 'composer'
-          - 'npm'
-        script:
-          - export CIVER='^3'
-          - *baseInstall
-          - moodle-plugin-ci phplint
-          - moodle-plugin-ci codechecker
-          - moodle-plugin-ci validate
-          - moodle-plugin-ci savepoints
-          - moodle-plugin-ci phpdoc
-    - step:
-        name: 'Moodle 3.9, PHP 7.2 and MariaDB 10.4'
-        image: 'moodlehq/moodle-php-apache:7.2'
-        services:
-          - 'mariadb'
-        caches:
-          - 'composer'
-          - 'npm'
-        script:
-          - export CIVER='^3'
-          - export MOODLE_BRANCH='MOODLE_39_STABLE'
-          - *baseInstall
-          - moodle-plugin-ci phplint
-          - moodle-plugin-ci codechecker
-          - moodle-plugin-ci validate
-          - moodle-plugin-ci savepoints
-          - moodle-plugin-ci phpdoc
-    - step:
-        name: 'Moodle 4.1, PHP 7.4 and MariaDB 10.4'
-        image: 'moodlehq/moodle-php-apache:7.4'
-        services:
-          - 'mariadb'
-        caches:
-          - 'composer'
-          - 'npm'
-        script:
-          - export MOODLE_BRANCH='MOODLE_401_STABLE'
-          - *baseInstall
-          - moodle-plugin-ci phplint
-          - moodle-plugin-ci codechecker
-          - moodle-plugin-ci validate
-          - moodle-plugin-ci savepoints
-          - moodle-plugin-ci phpdoc
-    - step:
-        name: 'Moodle 4.3, PHP 8.0 and MariaDB 10.6'
-        image: 'moodlehq/moodle-php-apache:8.0'
-        services:
-          - 'mariadb'
-        caches:
-          - 'composer'
-          - 'npm'
-        script:
-          - export MOODLE_BRANCH='MOODLE_403_STABLE'
-          - *baseInstall
-          - moodle-plugin-ci phplint
-          - moodle-plugin-ci codechecker
-          - moodle-plugin-ci validate
-          - moodle-plugin-ci savepoints
-          - moodle-plugin-ci phpdoc
+    - parallel:
+        steps:
+        - step:
+            name: 'Moodle 3.5, PHP 7.1 and MariaDB 10.4'
+            image: 'moodlehq/moodle-php-apache:7.1'
+            services:
+              - 'mariadb'
+            caches:
+              - 'composer'
+              - 'npm'
+            script:
+              - export CIVER='^3'
+              - *baseInstall
+              - moodle-plugin-ci phplint
+              - moodle-plugin-ci codechecker
+              - moodle-plugin-ci validate
+              - moodle-plugin-ci savepoints
+              - moodle-plugin-ci phpdoc
+        - step:
+            name: 'Moodle 3.9, PHP 7.2 and MariaDB 10.4'
+            image: 'moodlehq/moodle-php-apache:7.2'
+            services:
+              - 'mariadb'
+            caches:
+              - 'composer'
+              - 'npm'
+            script:
+              - export CIVER='^3'
+              - export MOODLE_BRANCH='MOODLE_39_STABLE'
+              - *baseInstall
+              - moodle-plugin-ci phplint
+              - moodle-plugin-ci codechecker
+              - moodle-plugin-ci validate
+              - moodle-plugin-ci savepoints
+              - moodle-plugin-ci phpdoc
+        - step:
+            name: 'Moodle 4.1, PHP 7.4 and MariaDB 10.4'
+            image: 'moodlehq/moodle-php-apache:7.4'
+            services:
+              - 'mariadb'
+            caches:
+              - 'composer'
+              - 'npm'
+            script:
+              - export MOODLE_BRANCH='MOODLE_401_STABLE'
+              - *baseInstall
+              - moodle-plugin-ci phplint
+              - moodle-plugin-ci codechecker
+              - moodle-plugin-ci validate
+              - moodle-plugin-ci savepoints
+              - moodle-plugin-ci phpdoc
+        - step:
+            name: 'Moodle 4.3, PHP 8.0 and MariaDB 10.6'
+            image: 'moodlehq/moodle-php-apache:8.0'
+            services:
+              - 'mariadb'
+            caches:
+              - 'composer'
+              - 'npm'
+            script:
+              - export MOODLE_BRANCH='MOODLE_403_STABLE'
+              - *baseInstall
+              - moodle-plugin-ci phplint
+              - moodle-plugin-ci codechecker
+              - moodle-plugin-ci validate
+              - moodle-plugin-ci savepoints
+              - moodle-plugin-ci phpdoc

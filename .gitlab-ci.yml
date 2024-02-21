@@ -1,3 +1,5 @@
+---
+
 variables:
   DEBIAN_FRONTEND: 'noninteractive'
   COMPOSER_ALLOW_SUPERUSER: 1
@@ -29,14 +31,14 @@ default:
     - mkdir -pv "$CI_BUILD_DIR"
     - cp -ru "$CI_PROJECT_DIR/"* "$CI_BUILD_DIR"
     - apt-get -yq update
-    - apt-get -yq install --no-install-suggests git ca-certificates curl mariadb-client
+    - apt-get -yq install --no-install-suggests --no-install-recommends git ca-certificates curl mariadb-client
     - 'curl -sS https://raw.githubusercontent.com/creationix/nvm/v0.39.7/install.sh | bash'
     - . ~/.bashrc
     - nvm install -b --default --no-progress lts/gallium
     - 'curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer'
     - composer create-project -n --no-dev --no-progress --no-ansi moodlehq/moodle-plugin-ci /opt/mci $CIVER
     - export PATH="/opt/mci/bin:/opt/mci/vendor/bin:$PATH"
-    - moodle-plugin-ci install --db-type mariadb --db-host db --db-name moodle --db-port 3306 --no-init --verbose
+    - moodle-plugin-ci install --db-host=db --no-init
 
 job:
   image: 'moodlehq/moodle-php-apache:7.1'
