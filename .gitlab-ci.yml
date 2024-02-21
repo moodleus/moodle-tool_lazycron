@@ -8,13 +8,15 @@ variables:
   CI_BUILD_DIR: '/tmp/plugin'
   MOODLE_BRANCH: 'MOODLE_35_STABLE'
   MOODLE_START_BEHAT_SERVERS: 'no'
-  DB: 'mariadb'
+  DB: 'mysql'
+  DB_NAME: 'moodle'
+  DB_HOST: 'db'
   CIVER: '^4'
 
 default:
   services:
-    - name: 'mariadb:10.6'
-      alias: db
+    - name: 'mysql:8.0'
+      alias: 'db'
       command:
         - '--character-set-server=utf8mb4'
         - '--collation-server=utf8mb4_unicode_ci'
@@ -22,8 +24,8 @@ default:
         - '--wait-timeout=28800'
         - '--skip-log-bin'
       variables:
-        MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: 'yes'
-        MARIADB_INITDB_SKIP_TZINFO: 'yes'
+        MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+        MYSQL_INITDB_SKIP_TZINFO: 'yes'
   cache:
     paths:
       - .cache
@@ -38,7 +40,7 @@ default:
     - 'curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer'
     - composer create-project -n --no-dev --no-progress --no-ansi moodlehq/moodle-plugin-ci /opt/mci $CIVER
     - export PATH="/opt/mci/bin:/opt/mci/vendor/bin:$PATH"
-    - moodle-plugin-ci install --db-host=db --db-name=moodle --no-init
+    - moodle-plugin-ci install --db-host="$DB_HOST" --db-name="$DB_NAME" --no-init
 
 job:
   image: 'moodlehq/moodle-php-apache:7.1'
