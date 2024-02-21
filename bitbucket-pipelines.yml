@@ -18,7 +18,7 @@ definitions:
     export TRAVIS_BUILD_DIR="$BITBUCKET_CLONE_DIR" ;
     export PATH="$BITBUCKET_CLONE_DIR/../ci/bin:$BITBUCKET_CLONE_DIR/../ci/vendor/bin:$PATH" ;
     export COMPOSER_CACHE_DIR='/root/.composer/cache' &&    
-    moodle-plugin-ci install --db-type=mysql --db-user=root --db-host='127.0.0.1' --no-init
+    moodle-plugin-ci install --db-type=mysqli --db-user=root --db-host='127.0.0.1' --no-init
   services:
     mysql:
       image: 'mysql:8.0'

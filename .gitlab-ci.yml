@@ -8,7 +8,7 @@ variables:
   CI_BUILD_DIR: '/tmp/plugin'
   MOODLE_BRANCH: 'MOODLE_35_STABLE'
   MOODLE_START_BEHAT_SERVERS: 'no'
-  DB: 'mysql'
+  DB: 'mysqli'
   DB_NAME: 'moodle'
   DB_HOST: 'db'
   CIVER: '^4'
