@@ -34,7 +34,7 @@ default:
     - mkdir -pv "$CI_BUILD_DIR"
     - cp -ru "$CI_PROJECT_DIR/"* "$CI_BUILD_DIR"
     - apt-get -yq update
-    - apt-get -yq install --no-install-suggests --no-install-recommends git ca-certificates curl mysql-client
+    - apt-get -yq install --no-install-suggests --no-install-recommends git ca-certificates curl mariadb-client
     - 'curl -sS https://raw.githubusercontent.com/creationix/nvm/v0.39.7/install.sh | bash'
     - . ~/.bashrc
     - nvm install -b --default --no-progress lts/gallium
