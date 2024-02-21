@@ -6,8 +6,6 @@ definitions:
     export COMPOSER_ALLOW_SUPERUSER=1 ;
     apt-get -q update &&
     apt-get -yq --no-install-suggests --no-install-recommends install git ca-certificates mariadb-client curl &&
-    echo '[client]' > ~/.my.cnf ; echo 'default-authentication-plugin=mysql_native_password' >> ~/.my.cnf ;
-    chmod 'ug=r,o=' ~/.my.cnf &&
     curl -sS https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash &&
     . ~/.bashrc &&
     nvm install -b --default --no-progress lts/carbon && 
@@ -22,6 +20,11 @@ definitions:
     export COMPOSER_CACHE_DIR='/root/.composer/cache' &&    
     moodle-plugin-ci install --db-type=mysqli --db-user=root --db-host='127.0.0.1' --no-init
   services:
+    mysql57:
+      image: 'mysql:5.7'
+      variables:
+        MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+        MYSQL_INITDB_SKIP_TZINFO: 'yes'
     mysql:
       image: 'mysql:8.0'
       variables:
@@ -39,7 +42,7 @@ pipelines:
             name: 'Moodle 3.5, PHP 7.1 and MariaDB 10.4'
             image: 'moodlehq/moodle-php-apache:7.1'
             services:
-              - 'mysql'
+              - 'mysql57'
             caches:
               - 'composer'
               - 'npm'
@@ -55,7 +58,7 @@ pipelines:
             name: 'Moodle 3.9, PHP 7.2 and MariaDB 10.4'
             image: 'moodlehq/moodle-php-apache:7.2'
             services:
-              - 'mysql'
+              - 'mysql57'
             caches:
               - 'composer'
               - 'npm'
