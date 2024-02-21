@@ -15,6 +15,17 @@ variables:
 
 default:
   services:
+    - name: 'mysql:5.7'
+      alias: 'db57'
+      command:
+        - '--character-set-server=utf8mb4'
+        - '--collation-server=utf8mb4_unicode_ci'
+        - '--innodb_file_per_table=On'
+        - '--wait-timeout=28800'
+        - '--skip-log-bin'
+      variables:
+        MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+        MYSQL_INITDB_SKIP_TZINFO: 'yes'
     - name: 'mysql:8.0'
       alias: 'db'
       command:
@@ -23,7 +34,6 @@ default:
         - '--innodb_file_per_table=On'
         - '--wait-timeout=28800'
         - '--skip-log-bin'
-        - '--default-authentication-plugin=mysql_native_password'
       variables:
         MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
         MYSQL_INITDB_SKIP_TZINFO: 'yes'
@@ -43,10 +53,11 @@ default:
     - export PATH="/opt/mci/bin:/opt/mci/vendor/bin:$PATH"
     - moodle-plugin-ci install --db-host="$DB_HOST" --db-name="$DB_NAME" --no-init
 
-job:
+Moodle 3.5, PHP 7.1, MySQL 5.7:
   image: 'moodlehq/moodle-php-apache:7.1'
   variables:
     CIVER: '^3'
+    DB_HOST: 'db57'
   script:
     - moodle-plugin-ci phplint
     - moodle-plugin-ci codechecker
@@ -54,10 +65,11 @@ job:
     - moodle-plugin-ci savepoints
     - moodle-plugin-ci phpdoc
 
-job1:
+Moodle 3.9, PHP 7.2, MySQL 5.7:
   image: 'moodlehq/moodle-php-apache:7.2'
   variables:
     CIVER: '^3'
+    DB_HOST: 'db57'
     MOODLE_BRANCH: 'MOODLE_39_STABLE'
   script:
     - moodle-plugin-ci phplint
@@ -66,7 +78,7 @@ job1:
     - moodle-plugin-ci savepoints
     - moodle-plugin-ci phpdoc
 
-job2:
+Moodle 4.1, PHP 7.4, MySQL 8.0:
   image: 'moodlehq/moodle-php-apache:7.4'
   variables:
     MOODLE_BRANCH: 'MOODLE_401_STABLE'
@@ -77,7 +89,7 @@ job2:
     - moodle-plugin-ci savepoints
     - moodle-plugin-ci phpdoc
 
-job3:
+Moodle 4.3, PHP 8.0, MySQL 8.0:
   image: 'moodlehq/moodle-php-apache:8.0'
   variables:
     MOODLE_BRANCH: 'MOODLE_403_STABLE'

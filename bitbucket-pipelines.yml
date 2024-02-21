@@ -39,7 +39,7 @@ pipelines:
     - parallel:
         steps:
         - step:
-            name: 'Moodle 3.5, PHP 7.1 and MariaDB 10.4'
+            name: 'Moodle 3.5, PHP 7.1 and MySQL 5.7'
             image: 'moodlehq/moodle-php-apache:7.1'
             services:
               - 'mysql57'
@@ -55,7 +55,7 @@ pipelines:
               - moodle-plugin-ci savepoints
               - moodle-plugin-ci phpdoc
         - step:
-            name: 'Moodle 3.9, PHP 7.2 and MariaDB 10.4'
+            name: 'Moodle 3.9, PHP 7.2 and  MySQL 5.7'
             image: 'moodlehq/moodle-php-apache:7.2'
             services:
               - 'mysql57'
@@ -72,7 +72,7 @@ pipelines:
               - moodle-plugin-ci savepoints
               - moodle-plugin-ci phpdoc
         - step:
-            name: 'Moodle 4.1, PHP 7.4 and MariaDB 10.4'
+            name: 'Moodle 4.1, PHP 7.4 and  MySQL 8.0'
             image: 'moodlehq/moodle-php-apache:7.4'
             services:
               - 'mysql'
@@ -88,7 +88,7 @@ pipelines:
               - moodle-plugin-ci savepoints
               - moodle-plugin-ci phpdoc
         - step:
-            name: 'Moodle 4.3, PHP 8.0 and MariaDB 10.6'
+            name: 'Moodle 4.3, PHP 8.0 and  MySQL 8.0'
             image: 'moodlehq/moodle-php-apache:8.0'
             services:
               - 'mysql'
