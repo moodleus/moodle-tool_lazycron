@@ -38,7 +38,7 @@ default:
     - 'curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer'
     - composer create-project -n --no-dev --no-progress --no-ansi moodlehq/moodle-plugin-ci /opt/mci $CIVER
     - export PATH="/opt/mci/bin:/opt/mci/vendor/bin:$PATH"
-    - moodle-plugin-ci install --db-host=db --no-init
+    - moodle-plugin-ci install --db-host=db --db-name=moodle --no-init
 
 job:
   image: 'moodlehq/moodle-php-apache:7.1'
