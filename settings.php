@@ -27,6 +27,8 @@ defined('MOODLE_INTERNAL') || die();
 use core\task\manager;
 use tool_lazycron\plugininfo;
 
+global $CFG;
+
 if ($hassiteconfig) {
     $settings = new admin_settingpage('tool_lazycron', new lang_string('pluginname', plugininfo::COMPONENT));
     $settings->add(
@@ -65,30 +67,37 @@ if ($hassiteconfig) {
         )
     );
 
-    $settings->add(
-        new admin_setting_heading(
-            plugininfo::settingname('configoverride'),
-            new lang_string('configoverride', plugininfo::COMPONENT),
-            new lang_string('configoverride_desc', plugininfo::COMPONENT)
-        )
-    );
+    // Add these settings only on Moodle 3.11+ .
+    if (version_compare($CFG->version, 2021051700.00, '>=')) {
+        $settings->add(
+            new admin_setting_heading(
+                plugininfo::settingname('configoverride'),
+                new lang_string('configoverride', plugininfo::COMPONENT),
+                new lang_string('configoverride_desc', plugininfo::COMPONENT)
+            )
+        );
 
-    $options = [];
-    if (!during_initial_install()) {
-        foreach (manager::get_all_scheduled_tasks() as $task) {
-            $classname = sprintf('\%s', get_class($task));
-            $options[$classname] = sprintf('%s (%s)', $task->get_name(), $task->get_component());
+        $options = [];
+        if (!during_initial_install()) {
+            foreach (manager::get_all_scheduled_tasks() as $task) {
+                // We take into account only enabled scheduled tasks.
+                if (!empty($task->get_disabled())) {
+                    continue;
+                }
+                $classname = sprintf('\%s', get_class($task));
+                $options[$classname] = sprintf('%s (%s)', $task->get_name(), $task->get_component());
+            }
         }
+        $settings->add(
+            new admin_setting_configmultiselect(
+                plugininfo::settingname('override'),
+                new lang_string('override', plugininfo::COMPONENT),
+                new lang_string('override_desc', plugininfo::COMPONENT),
+                [],
+                $options
+            )
+        );
     }
-    $settings->add(
-        new admin_setting_configmultiselect(
-            plugininfo::settingname('override'),
-            new lang_string('override', plugininfo::COMPONENT),
-            new lang_string('override_desc', plugininfo::COMPONENT),
-            [],
-            $options
-        )
-    );
 
     /** @var admin_root $ADMIN */
     $ADMIN->add('server', $settings);
