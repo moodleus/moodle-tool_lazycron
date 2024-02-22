@@ -18,15 +18,16 @@
  * Lazy cron.
  *
  * @package    tool_lazycron
- * @copyright  2024 Darko Miletic
+ * @copyright  2024 Darko Miletic <darko.miletic@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
 /** @var stdClass $plugin */
-$plugin->version   = 2024011700; // The current plugin version (Date: YYYYMMDDXX).
-$plugin->requires  = 2018051700; // Requires this Moodle version.
-$plugin->component = 'tool_lazycron'; // Full name of the plugin (used for diagnostics).
-$plugin->release   = '1.0';
-$plugin->maturity  = MATURITY_STABLE;
+$plugin->version = 2024011700;
+$plugin->requires = 2018051700.00;
+$plugin->component = 'tool_lazycron';
+$plugin->release = '1.0';
+$plugin->maturity = MATURITY_STABLE;
+$plugin->supported = [35, 404];
