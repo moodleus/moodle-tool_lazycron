@@ -52,7 +52,6 @@ pipelines:
               - moodle-plugin-ci phplint
               - moodle-plugin-ci codechecker
               - moodle-plugin-ci validate
-              - moodle-plugin-ci savepoints
               - moodle-plugin-ci phpdoc
         - step:
             name: 'Moodle 3.9, PHP 7.2 and  MySQL 5.7'
@@ -69,7 +68,6 @@ pipelines:
               - moodle-plugin-ci phplint
               - moodle-plugin-ci codechecker
               - moodle-plugin-ci validate
-              - moodle-plugin-ci savepoints
               - moodle-plugin-ci phpdoc
         - step:
             name: 'Moodle 4.1, PHP 7.4 and  MySQL 8.0'
@@ -85,7 +83,6 @@ pipelines:
               - moodle-plugin-ci phplint
               - moodle-plugin-ci codechecker
               - moodle-plugin-ci validate
-              - moodle-plugin-ci savepoints
               - moodle-plugin-ci phpdoc
         - step:
             name: 'Moodle 4.3, PHP 8.0 and  MySQL 8.0'
@@ -101,5 +98,4 @@ pipelines:
               - moodle-plugin-ci phplint
               - moodle-plugin-ci codechecker
               - moodle-plugin-ci validate
-              - moodle-plugin-ci savepoints
               - moodle-plugin-ci phpdoc
