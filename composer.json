@@ -1,0 +1,13 @@
+{
+  "name": "moodleus/moodle-tool_lazycron",
+  "license": "GPL-3.0-or-later",
+  "description": "Lazy cron implementation for Moodle",
+  "type": "moodle-tool",
+  "require": {
+    "php": "^7.0||^8.0",
+    "composer/installers": "^1.0||^2.0"
+  },
+  "extra": {
+    "installer-name": "lazycron"
+  }
+}
