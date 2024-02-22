@@ -116,6 +116,9 @@ abstract class cronhelper {
             $overridetasks = trim($options->override);
             if (!empty($overridetasks)) {
                 $otasks = explode(',', $overridetasks);
+                if (empty($otasks)) {
+                    return $result;
+                }
                 $systacklist = [];
                 foreach (manager::get_all_scheduled_tasks() as $systask) {
                     if (!empty($systask->get_disabled())) {
