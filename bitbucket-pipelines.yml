@@ -25,11 +25,15 @@ definitions:
       variables:
         MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
         MYSQL_INITDB_SKIP_TZINFO: 'yes'
+        MYSQL_CHARACTER_SET_SERVER: 'utf8mb4'
+        MYSQL_COLLATION_SERVER: 'utf8mb4_unicode_ci'
     mysql:
       image: 'mysql:8.0'
       variables:
         MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
         MYSQL_INITDB_SKIP_TZINFO: 'yes'
+        MYSQL_CHARACTER_SET_SERVER: 'utf8mb4'
+        MYSQL_COLLATION_SERVER: 'utf8mb4_unicode_ci'
   caches:
     npm:
       path: "$HOME/.npm"

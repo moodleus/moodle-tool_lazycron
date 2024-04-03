@@ -18,25 +18,25 @@ default:
     - name: 'mysql:5.7'
       alias: 'db57'
       command:
-        - '--character-set-server=utf8mb4'
-        - '--collation-server=utf8mb4_unicode_ci'
         - '--innodb_file_per_table=On'
         - '--wait-timeout=28800'
         - '--skip-log-bin'
       variables:
         MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
         MYSQL_INITDB_SKIP_TZINFO: 'yes'
+        MYSQL_CHARACTER_SET_SERVER: 'utf8mb4'
+        MYSQL_COLLATION_SERVER: 'utf8mb4_unicode_ci'
     - name: 'mysql:8.0'
       alias: 'db'
       command:
-        - '--character-set-server=utf8mb4'
-        - '--collation-server=utf8mb4_unicode_ci'
         - '--innodb_file_per_table=On'
         - '--wait-timeout=28800'
         - '--skip-log-bin'
       variables:
         MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
         MYSQL_INITDB_SKIP_TZINFO: 'yes'
+        MYSQL_CHARACTER_SET_SERVER: 'utf8mb4'
+        MYSQL_COLLATION_SERVER: 'utf8mb4_unicode_ci'
   cache:
     paths:
       - .cache
