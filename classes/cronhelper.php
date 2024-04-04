@@ -54,7 +54,7 @@ abstract class cronhelper {
             $result = $DB->get_records_sql_menu(
                 "(
                   SELECT 'user' AS lasttype, MAX(lastaccess) AS last
-                    FROM {user} 
+                    FROM {user}
                    WHERE deleted=0
                  )
                  UNION ALL
