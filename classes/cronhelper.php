@@ -52,9 +52,16 @@ abstract class cronhelper {
         $result = [];
         try {
             $result = $DB->get_records_sql_menu(
-                "(SELECT 'user' AS lasttype, MAX(lastaccess) AS last FROM {user} WHERE deleted=0)
-                UNION ALL
-                (SELECT 'cron' AS lasttype, MAX(lastruntime) AS last FROM {task_scheduled})"
+                "(
+                  SELECT 'user' AS lasttype, MAX(lastaccess) AS last
+                    FROM {user} 
+                   WHERE deleted=0
+                 )
+                 UNION ALL
+                 (
+                  SELECT 'cron' AS lasttype, MAX(lastruntime) AS last
+                    FROM {task_scheduled}
+                 )"
             );
         } catch (Throwable $exception) {
             static::$lasterror = $exception->getMessage();
