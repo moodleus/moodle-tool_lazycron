@@ -27,6 +27,7 @@ definitions:
         MYSQL_INITDB_SKIP_TZINFO: 'yes'
         MYSQL_CHARACTER_SET_SERVER: 'utf8mb4'
         MYSQL_COLLATION_SERVER: 'utf8mb4_unicode_ci'
+        MYSQL_ARGS: '--innodb_file_per_table=On --wait-timeout=28800 --skip-log-bin'
     mysql:
       image: 'mysql:8.0'
       variables:
@@ -34,6 +35,7 @@ definitions:
         MYSQL_INITDB_SKIP_TZINFO: 'yes'
         MYSQL_CHARACTER_SET_SERVER: 'utf8mb4'
         MYSQL_COLLATION_SERVER: 'utf8mb4_unicode_ci'
+        MYSQL_ARGS: '--innodb_file_per_table=On --wait-timeout=28800 --skip-log-bin'
   caches:
     npm:
       path: "$HOME/.npm"
