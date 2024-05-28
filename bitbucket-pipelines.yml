@@ -23,19 +23,21 @@ definitions:
     mysql57:
       image: 'mysql:5.7'
       variables:
+        MYSQL_USER: 'root'
         MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
         MYSQL_INITDB_SKIP_TZINFO: 'yes'
         MYSQL_CHARACTER_SET_SERVER: 'utf8mb4'
         MYSQL_COLLATION_SERVER: 'utf8mb4_unicode_ci'
-        MYSQL_ARGS: '--innodb_file_per_table=On --wait-timeout=28800 --skip-log-bin'
+        MYSQL_SKIP_LOG_BIN: 'yes'
     mysql:
       image: 'mysql:8.0'
       variables:
+        MYSQL_USER: 'root'
         MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
         MYSQL_INITDB_SKIP_TZINFO: 'yes'
         MYSQL_CHARACTER_SET_SERVER: 'utf8mb4'
         MYSQL_COLLATION_SERVER: 'utf8mb4_unicode_ci'
-        MYSQL_ARGS: '--innodb_file_per_table=On --wait-timeout=28800 --skip-log-bin'
+        MYSQL_SKIP_LOG_BIN: 'yes'
   caches:
     npm:
       path: "$HOME/.npm"
