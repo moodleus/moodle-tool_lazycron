@@ -22,24 +22,24 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'Lazy cron';
-$string['privacy:metadata'] = 'The Lazy cron plugin does not store any personal data.';
-$string['enabled'] = 'Enabled';
-$string['enabled_desc'] = 'When checked plugin functionality is enabled.';
-$string['lastuserlogin'] = 'Last user login';
-$string['lastuserlogin_desc'] = 'If time since last user login is larger than what is defined in this setting do not execute cron.';
-$string['lastcronrun'] = 'Last cron execution';
-$string['lastcronrun_desc'] = 'If time since last cron execution is lesser than what is defined in this setting do not execute cron.';
-$string['introduction'] = 'Introduction';
-$string['introduction_desc'] =
-"This plugin offers new functionality to Moodle cron.
-When enabled and properly configured it could lower site usage costs.
-The idea is to prevent execution for low usage site. If few users are logging and performing tasks within platform there
-is usually no reason to run cron at all.";
-$string['override'] = 'Tasks override';
-$string['override_desc'] = 'When lazy cron is active, by default, cron will not be executed (ie none of the enabled
-scheduled tasks) when skipping conditions are met. Select scheduled tasks to execute even with lazy cron enabled.';
 $string['configoverride'] = 'Scheduled tasks advanced configuration';
 $string['configoverride_desc'] = 'This setting permits user to execute specific scheduled tasks even with Lazy cron
 activated. Applies ONLY to Moodle 3.11+ . If you already have <code>$CFG->scheduled_tasks</code> set in your
 <code>config.php</code> it will be ignored.';
+$string['enabled'] = 'Enabled';
+$string['enabled_desc'] = 'When checked plugin functionality is enabled.';
+$string['introduction'] = 'Introduction';
+$string['introduction_desc'] =
+    "This plugin offers new functionality to Moodle cron.
+When enabled and properly configured it could lower site usage costs.
+The idea is to prevent execution for low usage site. If few users are logging and performing tasks within platform there
+is usually no reason to run cron at all.";
+$string['lastcronrun'] = 'Last cron execution';
+$string['lastcronrun_desc'] = 'If time since last cron execution is lesser than what is defined in this setting do not execute cron.';
+$string['lastuserlogin'] = 'Last user login';
+$string['lastuserlogin_desc'] = 'If time since last user login is larger than what is defined in this setting do not execute cron.';
+$string['override'] = 'Tasks override';
+$string['override_desc'] = 'When lazy cron is active, by default, cron will not be executed (ie none of the enabled
+scheduled tasks) when skipping conditions are met. Select scheduled tasks to execute even with lazy cron enabled.';
+$string['pluginname'] = 'Lazy cron';
+$string['privacy:metadata'] = 'The Lazy cron plugin does not store any personal data.';

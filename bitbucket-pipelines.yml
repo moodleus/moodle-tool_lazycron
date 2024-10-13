@@ -56,9 +56,11 @@ pipelines:
               - export CIVER='^3'
               - *baseInstall
               - moodle-plugin-ci phplint
+              - moodle-plugin-ci phpmd
+              - moodle-plugin-ci phpcs --max-warnings 0
               - moodle-plugin-ci codechecker
               - moodle-plugin-ci validate
-              - moodle-plugin-ci phpdoc
+              - moodle-plugin-ci phpdoc --max-warnings 0
         - step:
             name: 'Moodle 3.9, PHP 7.2 and  MySQL 5.7'
             image: 'moodlehq/moodle-php-apache:7.2'
@@ -72,9 +74,11 @@ pipelines:
               - export MOODLE_BRANCH='MOODLE_39_STABLE'
               - *baseInstall
               - moodle-plugin-ci phplint
+              - moodle-plugin-ci phpmd
+              - moodle-plugin-ci phpcs --max-warnings 0
               - moodle-plugin-ci codechecker
               - moodle-plugin-ci validate
-              - moodle-plugin-ci phpdoc
+              - moodle-plugin-ci phpdoc --max-warnings 0
         - step:
             name: 'Moodle 4.1, PHP 7.4 and  MySQL 8.0'
             image: 'moodlehq/moodle-php-apache:7.4'
@@ -87,9 +91,11 @@ pipelines:
               - export MOODLE_BRANCH='MOODLE_401_STABLE'
               - *baseInstall
               - moodle-plugin-ci phplint
+              - moodle-plugin-ci phpmd
+              - moodle-plugin-ci phpcs --max-warnings 0
               - moodle-plugin-ci codechecker
               - moodle-plugin-ci validate
-              - moodle-plugin-ci phpdoc
+              - moodle-plugin-ci phpdoc --max-warnings 0
         - step:
             name: 'Moodle 4.3, PHP 8.0 and  MySQL 8.0'
             image: 'moodlehq/moodle-php-apache:8.0'
@@ -102,9 +108,11 @@ pipelines:
               - export MOODLE_BRANCH='MOODLE_403_STABLE'
               - *baseInstall
               - moodle-plugin-ci phplint
+              - moodle-plugin-ci phpmd
+              - moodle-plugin-ci phpcs --max-warnings 0
               - moodle-plugin-ci codechecker
               - moodle-plugin-ci validate
-              - moodle-plugin-ci phpdoc
+              - moodle-plugin-ci phpdoc --max-warnings 0
         - step:
             name: 'Moodle 4.5, PHP 8.1 and  MySQL 8.0'
             image: 'moodlehq/moodle-php-apache:8.1'
@@ -117,6 +125,8 @@ pipelines:
               - export MOODLE_BRANCH='MOODLE_405_STABLE'
               - *baseInstall
               - moodle-plugin-ci phplint
+              - moodle-plugin-ci phpmd
+              - moodle-plugin-ci phpcs --max-warnings 0
               - moodle-plugin-ci codechecker
               - moodle-plugin-ci validate
-              - moodle-plugin-ci phpdoc
+              - moodle-plugin-ci phpdoc --max-warnings 0
