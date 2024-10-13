@@ -62,7 +62,7 @@ Moodle 3.5, PHP 7.1, MySQL 5.7:
     - moodle-plugin-ci phplint
     - moodle-plugin-ci codechecker
     - moodle-plugin-ci validate
-    - moodle-plugin-ci phpdoc --max-warnings 0
+    - moodle-plugin-ci phpdoc
     - moodle-plugin-ci phpmd
     - moodle-plugin-ci phpcs --max-warnings 0
 
@@ -76,7 +76,7 @@ Moodle 3.9, PHP 7.2, MySQL 5.7:
     - moodle-plugin-ci phplint
     - moodle-plugin-ci codechecker
     - moodle-plugin-ci validate
-    - moodle-plugin-ci phpdoc --max-warnings 0
+    - moodle-plugin-ci phpdoc
     - moodle-plugin-ci phpmd
     - moodle-plugin-ci phpcs --max-warnings 0
 

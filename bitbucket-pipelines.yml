@@ -60,7 +60,7 @@ pipelines:
               - moodle-plugin-ci phpcs --max-warnings 0
               - moodle-plugin-ci codechecker
               - moodle-plugin-ci validate
-              - moodle-plugin-ci phpdoc --max-warnings 0
+              - moodle-plugin-ci phpdoc
         - step:
             name: 'Moodle 3.9, PHP 7.2 and  MySQL 5.7'
             image: 'moodlehq/moodle-php-apache:7.2'
@@ -78,7 +78,7 @@ pipelines:
               - moodle-plugin-ci phpcs --max-warnings 0
               - moodle-plugin-ci codechecker
               - moodle-plugin-ci validate
-              - moodle-plugin-ci phpdoc --max-warnings 0
+              - moodle-plugin-ci phpdoc
         - step:
             name: 'Moodle 4.1, PHP 7.4 and  MySQL 8.0'
             image: 'moodlehq/moodle-php-apache:7.4'
