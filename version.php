@@ -25,9 +25,9 @@
 defined('MOODLE_INTERNAL') || die();
 
 /** @var stdClass $plugin */
-$plugin->version = 2024011700;
+$plugin->version = 2024011701;
 $plugin->requires = 2018051700.00;
 $plugin->component = 'tool_lazycron';
-$plugin->release = '1.0';
+$plugin->release = '1.0.1';
 $plugin->maturity = MATURITY_STABLE;
-$plugin->supported = [35, 404];
+$plugin->supported = [35, 405];

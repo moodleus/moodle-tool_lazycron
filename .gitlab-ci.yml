@@ -95,3 +95,13 @@ Moodle 4.3, PHP 8.0, MySQL 8.0:
     - moodle-plugin-ci codechecker
     - moodle-plugin-ci validate
     - moodle-plugin-ci phpdoc
+
+Moodle 4.5, PHP 8.1, MySQL 8.0:
+  image: 'moodlehq/moodle-php-apache:8.1'
+  variables:
+    MOODLE_BRANCH: 'MOODLE_405_STABLE'
+  script:
+    - moodle-plugin-ci phplint
+    - moodle-plugin-ci codechecker
+    - moodle-plugin-ci validate
+    - moodle-plugin-ci phpdoc

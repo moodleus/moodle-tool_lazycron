@@ -105,3 +105,18 @@ pipelines:
               - moodle-plugin-ci codechecker
               - moodle-plugin-ci validate
               - moodle-plugin-ci phpdoc
+        - step:
+            name: 'Moodle 4.5, PHP 8.1 and  MySQL 8.0'
+            image: 'moodlehq/moodle-php-apache:8.1'
+            services:
+              - 'mysql'
+            caches:
+              - 'composer'
+              - 'npm'
+            script:
+              - export MOODLE_BRANCH='MOODLE_405_STABLE'
+              - *baseInstall
+              - moodle-plugin-ci phplint
+              - moodle-plugin-ci codechecker
+              - moodle-plugin-ci validate
+              - moodle-plugin-ci phpdoc
