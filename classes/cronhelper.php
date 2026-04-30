@@ -89,7 +89,8 @@ abstract class cronhelper {
                     $now = time();
                     $lastuseraccessdelay = $now - intval($lastdata['user']);
                     $lastcronexecutiondelay = $now - intval($lastdata['cron']);
-                    if (($lastuseraccessdelay > intval($options->lastuserlogin)) &&
+                    if (
+                        ($lastuseraccessdelay > intval($options->lastuserlogin)) &&
                         ($lastcronexecutiondelay < intval($options->lastcronrun))
                     ) {
                         $result = false;
@@ -189,7 +190,8 @@ abstract class cronhelper {
         cli_writeln('Executing cron.');
 
         if (class_exists('\core\local\cli\shutdown') &&
-            is_callable(['\core\local\cli\shutdown', 'script_supports_graceful_exit'])) {
+            is_callable(['\core\local\cli\shutdown', 'script_supports_graceful_exit'])
+        ) {
             \core\local\cli\shutdown::script_supports_graceful_exit();
         }
 
