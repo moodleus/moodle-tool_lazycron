@@ -36,7 +36,6 @@ use Throwable;
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 abstract class cronhelper {
-
     /**
      * @var string last error
      */
@@ -91,7 +90,8 @@ abstract class cronhelper {
                     $lastuseraccessdelay = $now - intval($lastdata['user']);
                     $lastcronexecutiondelay = $now - intval($lastdata['cron']);
                     if (($lastuseraccessdelay > intval($options->lastuserlogin)) &&
-                        ($lastcronexecutiondelay < intval($options->lastcronrun))) {
+                        ($lastcronexecutiondelay < intval($options->lastcronrun))
+                    ) {
                         $result = false;
                     }
                 }
@@ -165,7 +165,7 @@ abstract class cronhelper {
      */
     public static function run() {
         global $CFG;
-        require_once($CFG->libdir.'/clilib.php');
+        require_once($CFG->libdir . '/clilib.php');
 
         $executecron = static::executecron();
         // Older Moodle.
@@ -196,7 +196,7 @@ abstract class cronhelper {
         if (class_exists('\core\cron') && is_callable(['\core\cron', 'run_main_process'])) {
             \core\cron::run_main_process();
         } else {
-            require_once($CFG->libdir.'/cronlib.php');
+            require_once($CFG->libdir . '/cronlib.php');
             cron_run();
         }
     }
