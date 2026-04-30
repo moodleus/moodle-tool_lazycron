@@ -44,9 +44,14 @@ On Linux/Unix type of systems you can install the cron as cronjob or as systemd 
 
 ### Cronjob setup
 
-Generic template
+Generic template for Moodle 3.5 - 5.0
 ```
 * * * * *    webserveruser    php /path/to/moodle/admin/tool/lazycron/cli/cron.php >/dev/null
+```
+
+Generic template for Moodle 5.1+
+```
+* * * * *    webserveruser    php /path/to/moodle/public/admin/tool/lazycron/cli/cron.php >/dev/null
 ```
 
 Create cronjob file as the one we show here and place it in `/etc/cron.d/` you can name it any way you want, for example
@@ -57,7 +62,7 @@ Create cronjob file as the one we show here and place it in `/etc/cron.d/` you c
 On installations with systemd it is preferable to configure custom service and timer to execute it. Templates are as
 follows:
 
-service unit template (we assume the filename `lazycron.service`)
+service unit template for Moodle 3.5 - 5.0 (we assume the filename `lazycron.service`)
 ```
 [Unit]
 Description=Execute Moodle lazy cron
@@ -71,6 +76,22 @@ Group=webservergrouop
 [Install]
 WantedBy=multi-user.target
 ```
+
+service unit template for Moodle 5.1+ (we assume the filename `lazycron.service`)
+```
+[Unit]
+Description=Execute Moodle lazy cron
+
+[Service]
+Type=exec
+ExecStart=php -f /path/to/moodle/public/admin/tool/lazycron/cli/cron.php
+User=webserveruser
+Group=webservergrouop
+
+[Install]
+WantedBy=multi-user.target
+```
+
 Adjust path to php executable, path to Moodle source files, web server user and group
 
 
@@ -123,7 +144,7 @@ sudo -- rm -f /etc/systemd/system/lazycron.*
 
 ## Copyright
 
-(c) 2024 [Moodle US][moodleus-site]
+(c) 2024-2026 onward [Moodle US][moodleus-site]
 
 Code for this plugin is licensed under the [GPLv3 license][GPLv3].
 
