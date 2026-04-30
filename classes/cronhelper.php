@@ -189,7 +189,8 @@ abstract class cronhelper {
 
         cli_writeln('Executing cron.');
 
-        if (class_exists('\core\local\cli\shutdown') &&
+        if (
+            class_exists('\core\local\cli\shutdown') &&
             is_callable(['\core\local\cli\shutdown', 'script_supports_graceful_exit'])
         ) {
             \core\local\cli\shutdown::script_supports_graceful_exit();
