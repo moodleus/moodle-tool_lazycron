@@ -107,7 +107,7 @@ abstract class cronhelper {
     /**
      * Get task scheduler overrides
      *
-     * @return array
+     * @return array<string, array<string, string|int>>
      * @throws dml_exception
      */
     public static function get_overrides(): array {
@@ -170,7 +170,7 @@ abstract class cronhelper {
 
         $executecron = static::executecron();
         // Older Moodle.
-        if (version_compare($CFG->version, 2021051700.00, '<')) {
+        if (version_compare($CFG->version, '2021051700.00', '<')) {
             if (!$executecron) {
                 cli_writeln('Skipping cron execution!');
                 return;

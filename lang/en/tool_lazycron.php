@@ -22,6 +22,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+/** @var array<string, string> $string */
 $string['configoverride'] = 'Scheduled tasks advanced configuration';
 $string['configoverride_desc'] = 'This setting permits user to execute specific scheduled tasks even with Lazy cron
 activated. Applies ONLY to Moodle 3.11+ . If you already have <code>$CFG->scheduled_tasks</code> set in your

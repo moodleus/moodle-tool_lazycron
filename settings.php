@@ -29,6 +29,7 @@ use tool_lazycron\plugininfo;
 
 global $CFG;
 
+/** @var bool $hassiteconfig */
 if ($hassiteconfig) {
     $settings = new admin_settingpage('tool_lazycron', new lang_string('pluginname', plugininfo::COMPONENT));
     $settings->add(
@@ -68,7 +69,7 @@ if ($hassiteconfig) {
     );
 
     // Add these settings only on Moodle 3.11+ .
-    if (version_compare($CFG->version, 2021051700.00, '>=')) {
+    if (version_compare($CFG->version, '2021051700.00', '>=')) {
         $settings->add(
             new admin_setting_heading(
                 plugininfo::settingname('configoverride'),
