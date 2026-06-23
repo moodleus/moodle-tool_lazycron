@@ -29,7 +29,7 @@ use tool_lazycron\plugininfo;
 
 global $CFG;
 
-/** @var bool $hassiteconfig */
+// @phpstan-ignore-next-line
 if ($hassiteconfig) {
     $settings = new admin_settingpage('tool_lazycron', new lang_string('pluginname', plugininfo::COMPONENT));
     $settings->add(
